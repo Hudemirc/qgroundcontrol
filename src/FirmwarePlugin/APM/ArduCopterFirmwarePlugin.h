@@ -41,6 +41,7 @@ public:
         THROW       = 18,
         AVOID_ADSB  = 19,
         GUIDED_NOGPS= 20,
+        STABILIZEADP= 22,
     };
     static const int modeCount = 21;
 

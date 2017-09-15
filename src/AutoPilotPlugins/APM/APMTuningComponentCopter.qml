@@ -46,6 +46,10 @@ SetupPage {
             property Fact _ratePitchI:      controller.getParameterFact(-1, "r.ATC_RAT_PIT_I")
             property Fact _rateClimbP:      controller.getParameterFact(-1, "ACCEL_Z_P")
             property Fact _rateClimbI:      controller.getParameterFact(-1, "ACCEL_Z_I")
+            property Fact _adpmotcnstprj:   controller.getParameterFact(-1, "ADP_MOT_CNST_PRJ")
+            property Fact _pgainadp:        controller.getParameterFact(-1, "ADP_P_GAIN")
+            property Fact _qgainadp:        controller.getParameterFact(-1, "ADP_Q_GAIN")
+            property Fact _kpkdratioadp:    controller.getParameterFact(-1, "ADP_KPKD_RATIO")
 
             property Fact _ch7Opt:  controller.getParameterFact(-1, "CH7_OPT")
             property Fact _ch8Opt:  controller.getParameterFact(-1, "CH8_OPT")
@@ -79,6 +83,10 @@ SetupPage {
                 rollPitch.value = _rateRollP.value
                 climb.value = _rateClimbP.value
                 rcFeel.value = _rcFeel.value
+                adpmotcnstprj.value = _adpmotcnstprj.value
+                pgainadp.value = _pgainadp.value
+                qgainadp.value = _qgainadp.value
+                kpkdratioadp.value = _kpkdratioadp.value
                 _loadComplete = true
 
                 calcAutoTuneChannel()
@@ -262,6 +270,122 @@ SetupPage {
                             onValueChanged: {
                                 if (_loadComplete) {
                                     _rcFeel.value = value
+                                }
+                            }
+                        }
+                    }
+                    Column {
+                        anchors.left:   parent.left
+                        anchors.right:  parent.right
+
+                        QGCLabel {
+                            text:       qsTr("Motor Constant Projection")
+                            font.family: ScreenTools.demiboldFontFamily
+                        }
+
+                        QGCLabel {
+                            text: qsTr("Slide to the left to increase the gap")
+                        }
+
+                        Slider {
+                            id:                 adpmotcnstprj
+                            anchors.left:       parent.left
+                            anchors.right:      parent.right
+                            minimumValue:       0.01
+                            maximumValue:       0.7
+                            stepSize:           0.01
+                            tickmarksEnabled:   true
+
+                            onValueChanged: {
+                                if (_loadComplete) {
+                                    _adpmotcnstprj.value = value
+                                }
+                            }
+                        }
+                    }
+                    Column {
+                        anchors.left:   parent.left
+                        anchors.right:  parent.right
+
+                        QGCLabel {
+                            text:       qsTr("Pitch, Roll and Yaw motor constant gain")
+                            font.family: ScreenTools.demiboldFontFamily
+                        }
+
+                        QGCLabel {
+                            text: qsTr("Slide to the left to increase the gain")
+                        }
+
+                        Slider {
+                            id:                 pgainadp
+                            anchors.left:       parent.left
+                            anchors.right:      parent.right
+                            minimumValue:       0.00
+                            maximumValue:       1000
+                            stepSize:           0.01
+                            tickmarksEnabled:   true
+
+                            onValueChanged: {
+                                if (_loadComplete) {
+                                    _pgainadp.value = value
+                                }
+                            }
+                        }
+                    }
+                    Column {
+                        anchors.left:   parent.left
+                        anchors.right:  parent.right
+
+                        QGCLabel {
+                            text:       qsTr("Yaw / Roll and Pitch gains' ratio")
+                            font.family: ScreenTools.demiboldFontFamily
+                        }
+
+                        QGCLabel {
+                            text: qsTr("Slide to the left to increase the ratio")
+                        }
+
+                        Slider {
+                            id:                 qgainadp
+                            anchors.left:       parent.left
+                            anchors.right:      parent.right
+                            minimumValue:       0.00
+                            maximumValue:       100
+                            stepSize:           0.01
+                            tickmarksEnabled:   true
+
+                            onValueChanged: {
+                                if (_loadComplete) {
+                                    _qgainadp.value = value
+                                }
+                            }
+                        }
+                    }
+                    Column {
+                        anchors.left:   parent.left
+                        anchors.right:  parent.right
+
+                        QGCLabel {
+                            text:       qsTr("Kp/kd ratio for update laws")
+                            font.family: ScreenTools.demiboldFontFamily
+                        }
+
+                        QGCLabel {
+                            text: qsTr("Slide to the left to increase the ratio")
+                        }
+
+                        Slider {
+                            id:                 kpkdratioadp
+                            anchors.left:       parent.left
+                            anchors.right:      parent.right
+                            minimumValue:       0.01
+                            maximumValue:       100
+                            stepSize:           0.01
+                            tickmarksEnabled:   true
+
+                            onValueChanged: {
+                                if (_loadComplete) {
+                                    _kpkdratioadp.value = value
                                 }
                             }
                         }
